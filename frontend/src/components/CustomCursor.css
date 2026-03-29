@@ -1,0 +1,78 @@
+body, a, button, select, [role="button"], .clickable {
+  cursor: none !important;
+}
+
+input, textarea {
+  cursor: text !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2147483647; /* maximum z-index */
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.custom-cursor.hidden {
+  opacity: 0;
+}
+
+/* Inner precise aiming dot */
+.custom-cursor.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #ef4444; /* red-500 for a precise target look */
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ef4444;
+  transition: width 0.15s, height 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+
+.custom-cursor.hovered.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #fde68a; /* amber */
+  box-shadow: 0 0 15px #fde68a;
+  opacity: 0.8;
+}
+
+/* Outer AI targeting bracket */
+.custom-cursor.reticle {
+  width: 44px;
+  height: 44px;
+  /* Instead of borders, we use an intricate gradient to draw 4 corner brackets [ ] */
+  background: 
+    linear-gradient(to right, #fca5a5 2px, transparent 2px) 0 0,
+    linear-gradient(to bottom, #fca5a5 2px, transparent 2px) 0 0,
+    linear-gradient(to left, #fca5a5 2px, transparent 2px) 100% 0,
+    linear-gradient(to bottom, #fca5a5 2px, transparent 2px) 100% 0,
+    linear-gradient(to right, #fca5a5 2px, transparent 2px) 0 100%,
+    linear-gradient(to top, #fca5a5 2px, transparent 2px) 0 100%,
+    linear-gradient(to left, #fca5a5 2px, transparent 2px) 100% 100%,
+    linear-gradient(to top, #fca5a5 2px, transparent 2px) 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 10px 10px; /* size of each corner side */
+  /* slightly lags behind */
+  transition: top 0.1s ease-out, left 0.1s ease-out, transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s, background-size 0.2s;
+}
+
+/* When hovering clickable elements, the reticle snaps tight and rotates 45 degrees */
+.custom-cursor.hovered.reticle {
+  transform: translate(-50%, -50%) scale(0.6) rotate(45deg);
+  background-size: 15px 15px; /* bigger corners to form closer to a solid square/diamond */
+  background-image: 
+    linear-gradient(to right, #fde68a 2px, transparent 2px),
+    linear-gradient(to bottom, #fde68a 2px, transparent 2px),
+    linear-gradient(to left, #fde68a 2px, transparent 2px),
+    linear-gradient(to bottom, #fde68a 2px, transparent 2px),
+    linear-gradient(to right, #fde68a 2px, transparent 2px),
+    linear-gradient(to top, #fde68a 2px, transparent 2px),
+    linear-gradient(to left, #fde68a 2px, transparent 2px),
+    linear-gradient(to top, #fde68a 2px, transparent 2px);
+}
+
+/* Click effect */
+.custom-cursor.clicked.reticle {
+  transform: translate(-50%, -50%) scale(1.1);
+  opacity: 0.3;
+}
