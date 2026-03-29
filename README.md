@@ -34,7 +34,7 @@ And the best part? **It never records a single frame of video.**
 
 ## 🏗️ System Architecture
 
-![System Architecture](docs/architecture.svg)
+![System Architecture](https://github.com/sri-mathi-2311/-women-safety-ai/blob/main/architecture.png?raw=true)
 
 The pipeline processes every camera frame through **5 sequential stages** — from raw video to actionable alert — all within 3 seconds:
 
