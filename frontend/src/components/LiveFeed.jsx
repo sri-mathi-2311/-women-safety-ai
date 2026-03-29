@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '../utils/api'
+
 function LiveFeed({ threatLevel, confidence, personsDetected, running }) {
   const getThreatColor = (level) => {
     const colors = {
@@ -38,7 +40,7 @@ function LiveFeed({ threatLevel, confidence, personsDetected, running }) {
       <div className="relative aspect-video bg-slate-900">
         {running ? (
           <img 
-            src="http://localhost:8000/api/video/feed"
+            src={`${API_BASE_URL}/api/video/feed`}
             alt="Live Camera Feed"
             className="w-full h-full object-cover"
           />

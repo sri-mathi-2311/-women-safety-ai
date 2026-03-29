@@ -2,16 +2,34 @@
  * In development, use same origin + Vite proxy → /api and /ws forward to FastAPI (port 8000).
  * Calling http://localhost:8000 directly from the browser causes CORS failures with POST actions.
  */
-export const API_BASE_URL = import.meta.env.DEV
-  ? ''
-  : (import.meta.env.VITE_API_URL ?? `http://${window.location.hostname}:8000`)
+const trimTrailingSlash = (value = '') => value.replace(/\/+$/, '')
+
+export const API_BASE_URL = (() => {
+  if (import.meta.env.DEV) {
+    return ''
+  }
+
+  const explicitApiUrl = trimTrailingSlash(import.meta.env.VITE_API_URL ?? '')
+  if (explicitApiUrl) {
+    return explicitApiUrl
+  }
+
+  // In production, default to same-origin routes (for Netlify redirects/proxies).
+  return ''
+})()
 
 export function getWebSocketUrl() {
+  const explicitWsUrl = trimTrailingSlash(import.meta.env.VITE_WS_URL ?? '')
+  if (explicitWsUrl) {
+    return explicitWsUrl
+  }
+
+  const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+
   if (import.meta.env.DEV) {
-    const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
     return `${proto}//${window.location.host}/ws`
   }
-  return import.meta.env.VITE_WS_URL ?? `ws://${window.location.hostname}:8000/ws`
+  return `${proto}//${window.location.host}/ws`
 }
 
 export async function getStatus() {
